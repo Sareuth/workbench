@@ -21,26 +21,48 @@ function App() {
     },
   ]);
 
+  const [title, setTitle] = useState<string>("");
+
   const handleToggle = (id: string) => {
     const newTasks = tasks.map((task) => {
       if (task.id === id) {
         return {
           id: task.id,
           title: task.title,
-          completed: !task.completed
-        }
+          completed: !task.completed,
+        };
       } else {
         return task;
       }
     });
 
-    setTasks (newTasks);
+    setTasks(newTasks);
+  };
+
+  const handleAddTask = () => {
+    if (title.trim().length > 0) {
+      const newTask: Task = {
+        id: String(1 + tasks.length),
+        title: title.trim(),
+        completed: false,
+      };
+      setTasks([...tasks, newTask]);
+      setTitle("");
+    }
   };
 
   return (
     <main>
       <h1>Workbench</h1>
-      <TaskList tasks={tasks} handleToggle={handleToggle}/>
+      <TaskList tasks={tasks} handleToggle={handleToggle} />
+      <input
+        id="title"
+        type="text"
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+      />
+      <label htmlFor="title">Task Title</label>
+      <button onClick={handleAddTask}>Add Task</button>
     </main>
   );
 }
