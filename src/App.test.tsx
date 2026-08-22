@@ -56,3 +56,21 @@ test("adds a new task when the user submits a title", async () => {
     screen.getByText("Write first TDD feature")
   ).toBeInTheDocument();
 });
+
+test("deletes an existing task when the user clicks its delete button", async () => {
+  const user = userEvent.setup();
+
+  render(<App />);
+
+  const deleteButton = screen.getByRole("button", {
+    name: /delete create Workbench repository/i,
+  });
+
+  await user.click(deleteButton);
+
+  expect(
+    screen.queryByText("Create Workbench repository")
+  ).not.toBeInTheDocument();
+});
+
+

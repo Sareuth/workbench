@@ -3,10 +3,11 @@ import { TaskItem } from "./TaskItem";
 
 interface TaskListProps {
   tasks: Task[];
-  handleToggle: (id: string) => void
+  handleToggle: (id: string) => void;
+  handleDelete: (id: string) => void;
 }
 
-export function TaskList({tasks, handleToggle}: TaskListProps) {
+export function TaskList({tasks, handleToggle, handleDelete}: TaskListProps) {
     return (
         <ul>
             {tasks.map((task) => (
@@ -14,6 +15,7 @@ export function TaskList({tasks, handleToggle}: TaskListProps) {
                     key={task.id}
                     task={task}
                     handleToggle={handleToggle}
+                    handleDelete={handleDelete}
                 />
             ))}
         </ul>

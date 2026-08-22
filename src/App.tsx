@@ -39,6 +39,12 @@ function App() {
     setTasks(newTasks);
   };
 
+  const handleDelete = (id: string) => {
+    const newTasks = tasks.filter((task) => task.id !== id);
+
+    setTasks(newTasks);
+  };
+
   const handleAddTask = () => {
     if (title.trim().length > 0) {
       const newTask: Task = {
@@ -54,7 +60,7 @@ function App() {
   return (
     <main>
       <h1>Workbench</h1>
-      <TaskList tasks={tasks} handleToggle={handleToggle} />
+      <TaskList tasks={tasks} handleToggle={handleToggle} handleDelete={handleDelete} />
       <input
         id="title"
         type="text"
