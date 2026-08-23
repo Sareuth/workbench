@@ -7,17 +7,17 @@ interface TaskListProps {
   handleDelete: (id: string) => void;
 }
 
-export function TaskList({tasks, handleToggle, handleDelete}: TaskListProps) {
-    return (
-        <ul>
-            {tasks.map((task) => (
-                <TaskItem 
-                    key={task.id}
-                    task={task}
-                    handleToggle={handleToggle}
-                    handleDelete={handleDelete}
-                />
-            ))}
-        </ul>
-    );
+export function TaskList({ tasks, handleToggle, handleDelete }: TaskListProps) {
+  return (
+    <ul>
+      {tasks.map((task) => (
+        <TaskItem
+          key={task.id}
+          task={task}
+          handleToggle={handleToggle}
+          handleDelete={handleDelete}
+        />
+      ))}
+    </ul>
+  );
 }

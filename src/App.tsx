@@ -5,17 +5,17 @@ import type { Task } from "./types";
 function App() {
   const [tasks, setTasks] = useState<Task[]>([
     {
-      id: "1",
+      id: crypto.randomUUID(),
       title: "Create Workbench repository",
       completed: true,
     },
     {
-      id: "2",
+      id: crypto.randomUUID(),
       title: "Render first React components",
       completed: false,
     },
     {
-      id: "3",
+      id: crypto.randomUUID(),
       title: "Add testing",
       completed: false,
     },
@@ -27,8 +27,7 @@ function App() {
     const newTasks = tasks.map((task) => {
       if (task.id === id) {
         return {
-          id: task.id,
-          title: task.title,
+          ...task,
           completed: !task.completed,
         };
       } else {
@@ -48,7 +47,7 @@ function App() {
   const handleAddTask = () => {
     if (title.trim().length > 0) {
       const newTask: Task = {
-        id: String(1 + tasks.length),
+        id: crypto.randomUUID(),
         title: title.trim(),
         completed: false,
       };
@@ -60,15 +59,23 @@ function App() {
   return (
     <main>
       <h1>Workbench</h1>
-      <TaskList tasks={tasks} handleToggle={handleToggle} handleDelete={handleDelete} />
-      <input
-        id="title"
-        type="text"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
+      <TaskList
+        tasks={tasks}
+        handleToggle={handleToggle}
+        handleDelete={handleDelete}
       />
-      <label htmlFor="title">Task Title</label>
-      <button onClick={handleAddTask}>Add Task</button>
+      <div className="add-task">
+        <label htmlFor="title">Task Title</label>
+        <div className="add-task-controls">
+          <input
+            id="title"
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+          <button onClick={handleAddTask}>Add Task</button>
+        </div>
+      </div>
     </main>
   );
 }
