@@ -25,6 +25,44 @@ input[type="checkbox"] {
   margin-right: 0.75rem;
 }
 
+ul {
+  padding: 0;
+  margin: 1rem 0;
+  list-style: none;
+}
+
 li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   margin: 0.5rem 0;
+
+  background: #1f1f1f;
+  padding: 0.6rem 0.75rem;
+  border-radius: 0.35rem;
+  border: 1px solid #2d2d2d;
+}
+
+li label {
+  flex: 1;
+}
+
+.add-task {
+  margin-top: 1.5rem;
+}
+
+.add-task label {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.add-task-controls {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.add-task-controls input {
+  flex: 1;
+  min-width: 0;
+  font-size: inherit;
 }

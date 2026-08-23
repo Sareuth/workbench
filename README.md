@@ -4,16 +4,24 @@ A React + TypeScript project for learning and experimenting with modern React de
 
 ## Current status
 
-Workbench 0.1 is focused on:
+Current milestone: v0.1.0
 
-- React components
+Workbench currently includes:
+
+- React components and component composition
 - TypeScript
-- props and component composition
-- basic task rendering
-- testing with Vitest and React Testing Library
+- Task list rendering
+- Adding tasks
+- Toggling tasks complete and incomplete
+- Deleting tasks
+- Accessible form controls and task actions
+- Behavioural testing with Vitest and React Testing Library
+- Basic dark-theme styling
 
 ## Tech
 
 - React
 - TypeScript
 - Vite
+- Vitest
+- React Testing Library
