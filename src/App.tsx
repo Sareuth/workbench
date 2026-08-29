@@ -22,6 +22,9 @@ function App() {
   ]);
 
   const [title, setTitle] = useState<string>("");
+  const [editingTaskID, setEditingTaskID] = useState<string | null>(null);
+
+  const isEditingTask = editingTaskID !== null;
 
   const handleToggle = (id: string) => {
     const newTasks = tasks.map((task) => {
@@ -56,13 +59,45 @@ function App() {
     }
   };
 
+  const handleEdit = (id: string) => {
+    setEditingTaskID(id);
+  };
+
+  const canSave = (title: string) => {
+    return !tasks.some((task) => {
+      if (task.id === editingTaskID) return false;
+      return task.title.toLowerCase().trim() === title.toLowerCase().trim();
+    });
+  };
+
+  const handleSave = (title: string) => {
+    const newTasks = tasks.map((task) => {
+      if (task.id === editingTaskID) {
+        return { ...task, title: title.trim() };
+      } else {
+        return task;
+      }
+    });
+    setTasks(newTasks);
+    setEditingTaskID(null);
+  };
+
+  const handleCancel = () => {
+    setEditingTaskID(null);
+  };
+
   return (
     <main>
       <h1>Workbench</h1>
       <TaskList
         tasks={tasks}
+        editingTaskID={editingTaskID}
         handleToggle={handleToggle}
         handleDelete={handleDelete}
+        handleEdit={handleEdit}
+        canSave={canSave}
+        handleSave={handleSave}
+        handleCancel={handleCancel}
       />
       <div className="add-task">
         <label htmlFor="title">Task Title</label>
@@ -72,8 +107,11 @@ function App() {
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
+            disabled={isEditingTask}
           />
-          <button onClick={handleAddTask}>Add Task</button>
+          <button disabled={isEditingTask} onClick={handleAddTask}>
+            Add Task
+          </button>
         </div>
       </div>
     </main>
