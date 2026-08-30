@@ -21,6 +21,18 @@ function App() {
     },
   ]);
 
+  const [filter, setFilter] = useState<"All" | "Open" | "Completed">("All");
+  const visibleTasks = tasks.filter((task) => {
+    switch (filter) {
+      case "Open":
+        return !task.completed;
+      case "Completed":
+        return task.completed;
+      default:
+        return true;
+    }
+  });
+
   const [title, setTitle] = useState<string>("");
   const [editingTaskID, setEditingTaskID] = useState<string | null>(null);
 
@@ -89,8 +101,28 @@ function App() {
   return (
     <main>
       <h1>Workbench</h1>
+      <div className="task-filters">
+        <button
+          onClick={() => setFilter("All")}
+          aria-pressed={filter === "All"}
+        >
+          All
+        </button>
+        <button
+          onClick={() => setFilter("Open")}
+          aria-pressed={filter === "Open"}
+        >
+          Open
+        </button>
+        <button
+          onClick={() => setFilter("Completed")}
+          aria-pressed={filter === "Completed"}
+        >
+          Completed
+        </button>
+      </div>
       <TaskList
-        tasks={tasks}
+        tasks={visibleTasks}
         editingTaskID={editingTaskID}
         handleToggle={handleToggle}
         handleDelete={handleDelete}

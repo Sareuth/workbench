@@ -344,3 +344,131 @@ test("does not allow an edited task title to duplicate another task", async () =
     }),
   ).toBeDisabled();
 });
+
+test("default filter shows all tasks", async () => {
+  render(<App />);
+
+  expect(
+    screen.getByRole("checkbox", {
+      name: /create workbench repository/i,
+    }),
+  ).toBeInTheDocument();
+
+  expect(
+    screen.getByRole("checkbox", {
+      name: /render first react components/i,
+    }),
+  ).toBeInTheDocument();
+
+  expect(
+    screen.getByRole("checkbox", {
+      name: /add testing/i,
+    }),
+  ).toBeInTheDocument();
+});
+
+test("open shows only incomplete tasks", async () => {
+  const user = userEvent.setup();
+
+  render(<App />);
+
+  const filterButton = screen.getByRole("button", {
+    name: /open/i,
+  });
+
+  await user.click(filterButton);
+
+  expect(
+    screen.queryByRole("checkbox", {
+      name: /create workbench repository/i,
+    }),
+  ).not.toBeInTheDocument();
+
+  expect(
+    screen.getByRole("checkbox", {
+      name: /render first react components/i,
+    }),
+  ).toBeInTheDocument();
+
+  expect(
+    screen.getByRole("checkbox", {
+      name: /add testing/i,
+    }),
+  ).toBeInTheDocument();
+});
+
+test("completed shows only completed tasks", async () => {
+  const user = userEvent.setup();
+
+  render(<App />);
+
+  const filterButton = screen.getByRole("button", {
+    name: /completed/i,
+  });
+
+  await user.click(filterButton);
+
+  expect(
+    screen.getByRole("checkbox", {
+      name: /create workbench repository/i,
+    }),
+  ).toBeInTheDocument();
+
+  expect(
+    screen.queryByRole("checkbox", {
+      name: /render first react components/i,
+    }),
+  ).not.toBeInTheDocument();
+
+  expect(
+    screen.queryByRole("checkbox", {
+      name: /add testing/i,
+    }),
+  ).not.toBeInTheDocument();
+});
+
+test("switching back to all restores the full list", async () => {
+  const user = userEvent.setup();
+
+  render(<App />);
+
+  const openButton = screen.getByRole("button", {
+    name: /open/i,
+  });
+
+  await user.click(openButton);
+
+  const allButton = screen.getByRole("button", {
+    name: /all/i,
+  });
+
+  await user.click(allButton);
+
+  expect(
+    screen.getByRole("checkbox", {
+      name: /create workbench repository/i,
+    }),
+  ).toBeInTheDocument();
+
+  expect(
+    screen.getByRole("checkbox", {
+      name: /render first react components/i,
+    }),
+  ).toBeInTheDocument();
+
+  expect(
+    screen.getByRole("checkbox", {
+      name: /add testing/i,
+    }),
+  ).toBeInTheDocument();
+});
+
+
+// Tests still to be implemented
+// 
+// switching back to All restores the full list
+
+// Starting Tasks
+// create workbench repository - completed
+// render first react components - incomplete
+// add testing - incomplete
