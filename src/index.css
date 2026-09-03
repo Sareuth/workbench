@@ -63,6 +63,12 @@ li label {
   flex: 1;
 }
 
+.task-edit-title {
+  flex: 1;
+  min-width: 0;
+  font: inherit;
+}
+
 .add-task {
   margin-top: 1.5rem;
 }
