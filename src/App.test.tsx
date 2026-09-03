@@ -463,12 +463,60 @@ test("switching back to all restores the full list", async () => {
   ).toBeInTheDocument();
 });
 
+test("restores saved tasks from localStorage on startup", () => {
+  const savedTasks = [
+    {
+      id: "saved-task-1",
+      title: "Persisted task",
+      completed: false,
+    },
+  ];
 
-// Tests still to be implemented
-// 
-// switching back to All restores the full list
+  localStorage.setItem("workbench.tasks", JSON.stringify(savedTasks));
 
-// Starting Tasks
-// create workbench repository - completed
-// render first react components - incomplete
-// add testing - incomplete
+  render(<App />);
+
+  expect(
+    screen.getByRole("checkbox", {
+      name: /persisted task/i,
+    }),
+  ).toBeInTheDocument();
+});
+
+test("saves data to localStorage on change", async () => {
+  const user = userEvent.setup();
+
+  render(<App />);
+
+  const editButton = screen.getByRole("button", {
+    name: /edit render first react components/i,
+  });
+
+  await user.click(editButton);
+
+  const input = screen.getByRole("textbox", {
+    name: /render first react components/i,
+  });
+
+  await user.clear(input);
+
+  await user.type(input, "Test localStorage task");
+
+  const saveButton = screen.getByRole("button", {
+    name: /save/i,
+  });
+
+  await user.click(saveButton);
+
+  const savedLocal = localStorage.getItem("workbench.tasks");
+
+  expect(savedLocal).not.toBeNull();
+
+  const savedTasks = JSON.parse(savedLocal!);
+
+  expect(savedTasks).toContainEqual({
+    id: expect.any(String),
+    title: "Test localStorage task",
+    completed: false,
+  });
+});
