@@ -223,6 +223,24 @@ test("cancelling an edit discards the changed title and exits edit mode", async 
   ).not.toBeInTheDocument();
 });
 
+test("disables filter buttons while a task is in edit mode", async () => {
+  const user = userEvent.setup();
+
+  render(<App />);
+
+  const editButton = screen.getByRole("button", {
+    name: /edit render first react components/i,
+  });
+
+  await user.click(editButton);
+
+  expect(screen.getByRole("button", { name: /all/i })).toBeDisabled();
+
+  expect(screen.getByRole("button", { name: /open/i })).toBeDisabled();
+
+  expect(screen.getByRole("button", { name: /completed/i })).toBeDisabled();
+});
+
 test("disables task creation while a task is in edit mode", async () => {
   const user = userEvent.setup();
 
@@ -472,6 +490,8 @@ test("restores saved tasks from localStorage on startup", () => {
     },
   ];
 
+  localStorage.clear();
+  
   localStorage.setItem("workbench.tasks", JSON.stringify(savedTasks));
 
   render(<App />);

@@ -39,6 +39,7 @@ export function TaskItem({
           disabled
         />
         <input
+          className="task-edit-title"
           type="text"
           aria-label={task.title}
           value={editTitle}

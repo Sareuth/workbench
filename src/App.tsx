@@ -10,23 +10,7 @@ function App() {
       return JSON.parse(saved);
     }
 
-    return [
-      {
-        id: crypto.randomUUID(),
-        title: "Create Workbench repository",
-        completed: true,
-      },
-      {
-        id: crypto.randomUUID(),
-        title: "Render first React components",
-        completed: false,
-      },
-      {
-        id: crypto.randomUUID(),
-        title: "Add testing",
-        completed: false,
-      },
-    ];
+    return [];
   });
 
   useEffect(() => {
@@ -115,18 +99,21 @@ function App() {
       <h1>Workbench</h1>
       <div className="task-filters">
         <button
+          disabled={isEditingTask}
           onClick={() => setFilter("All")}
           aria-pressed={filter === "All"}
         >
           All
         </button>
         <button
+          disabled={isEditingTask}
           onClick={() => setFilter("Open")}
           aria-pressed={filter === "Open"}
         >
           Open
         </button>
         <button
+          disabled={isEditingTask}
           onClick={() => setFilter("Completed")}
           aria-pressed={filter === "Completed"}
         >
