@@ -1,25 +1,37 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { TaskList } from "./TaskList";
 import type { Task } from "./types";
 
 function App() {
-  const [tasks, setTasks] = useState<Task[]>([
-    {
-      id: crypto.randomUUID(),
-      title: "Create Workbench repository",
-      completed: true,
-    },
-    {
-      id: crypto.randomUUID(),
-      title: "Render first React components",
-      completed: false,
-    },
-    {
-      id: crypto.randomUUID(),
-      title: "Add testing",
-      completed: false,
-    },
-  ]);
+  const [tasks, setTasks] = useState<Task[]>(() => {
+    const saved = localStorage.getItem("workbench.tasks");
+
+    if (saved) {
+      return JSON.parse(saved);
+    }
+
+    return [
+      {
+        id: crypto.randomUUID(),
+        title: "Create Workbench repository",
+        completed: true,
+      },
+      {
+        id: crypto.randomUUID(),
+        title: "Render first React components",
+        completed: false,
+      },
+      {
+        id: crypto.randomUUID(),
+        title: "Add testing",
+        completed: false,
+      },
+    ];
+  });
+
+  useEffect(() => {
+    localStorage.setItem("workbench.tasks", JSON.stringify(tasks));
+  }, [tasks]);
 
   const [filter, setFilter] = useState<"All" | "Open" | "Completed">("All");
   const visibleTasks = tasks.filter((task) => {
